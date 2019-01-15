@@ -12,12 +12,13 @@ namespace OOPSReview
         private int _side;
         private string _colour;
 
-        // Properties: Fully Implimented Propery
+        // Properties
         // properties are responsible for assigning and retrieving data to/from their associated data member
         // retrieving data froma data member uses the get{}, assigning data to a data member uses the set{}
         // Properties will have a return datatype BUT no parameter list
         // properties need to be exposed to ouside users
-        // Fully Implimented property has a definede Data Member that the Deveolper can directly access
+
+        // Fully Implimented property has a defined Data Member that the Deveolper can directly access
         public int Side
         {
             get
