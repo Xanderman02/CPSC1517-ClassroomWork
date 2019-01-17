@@ -120,7 +120,7 @@ namespace OOPSReview
         //   pass in a set of values which will be used at the 
         //   time of instance creation to set the values of the 
         //   internal data members/auto properties
-        public Die(int sides, string colour, int faceValue)
+        public Die(int sides, string colour)
         {
             Sides = sides;
             Colour = colour;
