@@ -20,18 +20,56 @@
     <h1>TextBoxes for Razor Form Samples</h1>
 }
 <!-- content body -->
-    <form id="theform" method="post">
+@if (IsPost)
+{
+    if (theButton.Equals("reset"))
+    {
+        leftSide = "";
+        rightSide = "";
+    }
+    else
+    {
+        // validation of data coming in
+        if (string.IsNullOrEmpty(leftSide) || string.IsNullOrEmpty(rightSide))
+        {
+        <p>Enter data in both input fields (name and colour).</p>
+        }
+        else
+        {
+            if (theButton.Equals("leftinput"))
+            {
+            <p>Hello. Your name is @leftSide.</p>
+            }
+            else
+            {
+            <p>@leftSide , your favourite colour is @rightSide.</p>
+            }
+        }
+    }
+}
+else
+{
+    <p>this form is in initialization</p>
+}
+<form id="theform" method="post">
+    <div class="row">
         <div class="col-sm-6">
             <label for="leftinput">Your Name: </label>
-            <input type="text" id="leftinput" name="leftinput" placeholder="Enter your name" value="@leftSide"/>
+            <input type="text" id="leftinput" name="leftinput" placeholder="Enter your name" value="@leftSide" />
             <button type="submit" id="formbutton" name="formbutton" class="btn" value="leftinput">Press Left</button>
         </div>
         <div class="col-sm-6">
             <label for="rightinput">Your Favorite Colour: </label>
-            <input type="text" id="rightinput" name="rightinput" placeholder="Enter your Colour" value="@rightSide"/>
+            <input type="text" id="rightinput" name="rightinput" placeholder="Enter your Colour" value="@rightSide" />
             <button type="submit" id="formbutton" name="formbutton" class="btn" value="rightinput">Press Right</button>
         </div>
-    </form>
+    </div>
+    <div class="row">
+        <div class="col-sm-offset-5">
+            <button type="submit" id="formbutton" name="formbutton" class="btn" value="reset">Reset</button>
+        </div>
+    </div>
+</form>
 
 
 @section footer{
