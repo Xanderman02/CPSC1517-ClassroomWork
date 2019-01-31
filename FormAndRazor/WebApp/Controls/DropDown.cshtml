@@ -1,6 +1,8 @@
 ﻿@{
     Layout = "~/_Layout.cshtml";
     Page.Title = "DropDown";
+
+    var selection = Request.Form["pageSelection"];
 }
 @section head{
 
@@ -10,7 +12,57 @@
 @section banner{
     <h1>DropDown (Select) for Razor Form Samples</h1>
 }
+@if(IsPost)
+{
+    // no button decision (only one button)
+    // validation 
+    // the validation in this sample will be done inside the switch
+    // if a page was not selected then the switch default will handle
+    // the select ... option
+    switch(selection.ToUpper())
+    {
+        case "TEXTBOXES":
+            {
+                // the object class for data going our is Response
+                // the method to direct yourself to another page is .Redirect(page)
+                // we will use relative addressing to get to another page
+                Response.Redirect("TextBoxes.cshtml");
+                break;
+            }
+        case "RADIOBUTTONS":
+            {
+                Response.Redirect("RadioButtons.cshtml");
+                break;
+            }
+        case "CHECKBOXES":
+            {
+                Response.Redirect("CheckBoxes.cshtml");
+                break;
+            }
+        default:
+            {
+                <p><span style="color:firebrick"><strong>Select the sample you wish to view.</strong></span></p>
+                break;
+            }
+    }
+}
 
+<form id="theForm" method="post">
+    <div class="row">
+        <div class="col-sm-offset-4">
+            <label for="pageSelection">Select control example:</label>
+            &nbsp;&nbsp;
+            <select id="pageSelection" name="pageSelection">
+                <option value="">select ...</option>
+                <option value="Textboxes">Text Boxes</option>
+                <option value="RadioButtons">Radio Buttons</option>
+                <option value="CheckBoxes">Check Boxes</option>
+            </select>
+            &nbsp;&nbsp;
+            <button type="submit" id="formbutton" name="formbutton" value="submit" class="btn btn-primary">Go To ...</button>
+        </div>
+    </div>
+</form>
 
 @section footer{
     &copy; CPSC1517 Nait, all rights reservered
