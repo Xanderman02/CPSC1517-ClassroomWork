@@ -22,7 +22,7 @@
     //this value will be used in titling the WebGrid display
     var categoryname = db.QueryValue(scalarcommand, categoryid);
 
-    var querycommand = "SELECT ProductID, ProductName, UnitPrice, UnitsInStock, Discontinued "
+    var querycommand = "SELECT ProductID, ProductName, UnitPrice, UnitsInStock, Discontinued, GetDate() Date "
                         + "FROM Products "
                         + "WHERE CategoryID = @0 "
                         + "ORDER BY 2";
@@ -49,10 +49,19 @@
         <!--Display the WebGrid instance in a customized display
                     default webgrid is simply xxxx.GetHtml()-->
         @gridinstance.GetHtml(
-     tableStyle: "table table-bordered table-striped table-hover",
-     mode: WebGridPagerModes.All,
-     firstText: "Start",
-     lastText: "End")
+  tableStyle: "table table-bordered table-striped table-hover",
+  mode: WebGridPagerModes.All,
+  firstText: "Start",
+  lastText: "End",
+  columns: gridinstance.Columns(
+          gridinstance.Column(columnName: "ProductID", header: "ID"),
+          gridinstance.Column(columnName: "ProductName", header: "Product"),
+          gridinstance.Column(columnName: "UnitPrice", header: "Price ($)",
+             format: (item) => item.UnitPrice.ToString("0.00")),
+          gridinstance.Column(columnName: "Date",
+             format: (item) => item.Date.ToString("MMM dd, yyyy")),
+         gridinstance.Column(columnName: "Discontinued", header: "Disc")
+         ))
 
     </div>
 </div>
