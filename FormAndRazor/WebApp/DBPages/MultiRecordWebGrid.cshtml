@@ -30,8 +30,8 @@
 
     //create an instance of WebGrid
     //notice the collection is passed at the time of instantiation
-
-    var gridinstance = new WebGrid(results);
+    // to alter the default 10 rows/page use the rowsPerPage attribute
+    var gridinstance = new WebGrid(results, rowsPerPage:5);
 
 }
 
@@ -46,9 +46,13 @@
 <div class="row">
     <div class="col-sm-offset-1">
         <span style="font-size:x-large"><strong>Products for @categoryname</strong></span>
-        <!--Display the WebGrid instance in its default display-->
+        <!--Display the WebGrid instance in a customized display
+                    default webgrid is simply xxxx.GetHtml()-->
         @gridinstance.GetHtml(
-        tableStyle:"table table-bordered table-striped table-hover")
+     tableStyle: "table table-bordered table-striped table-hover",
+     mode: WebGridPagerModes.All,
+     firstText: "Start",
+     lastText: "End")
 
     </div>
 </div>
