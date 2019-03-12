@@ -16,7 +16,48 @@
 
         </div>
     </div>
-  
+    <%--entry all validation controls in one group area--%>
+    <asp:RequiredFieldValidator ID="RequiredFieldFirstName" runat="server" ErrorMessage="First Name is required." Display="None"
+        SetFocusOnError="true" ForeColor="Firebrick" ControlToValidate="FirstName"></asp:RequiredFieldValidator>
+    <asp:RequiredFieldValidator ID="RequiredFieldLastName" runat="server" ErrorMessage="Last Name is required." Display="None"
+        SetFocusOnError="true" ForeColor="Firebrick" ControlToValidate="LastName"></asp:RequiredFieldValidator>
+    <asp:RequiredFieldValidator ID="RequiredFieldStreetAddress1" runat="server" ErrorMessage="Street Address is required." Display="None"
+        SetFocusOnError="true" ForeColor="Firebrick" ControlToValidate="StreetAddress1"></asp:RequiredFieldValidator>
+    <asp:RequiredFieldValidator ID="RequiredFieldCity" runat="server" ErrorMessage="City is required." Display="None"
+        SetFocusOnError="true" ForeColor="Firebrick" ControlToValidate="City"></asp:RequiredFieldValidator>
+    <asp:RequiredFieldValidator ID="RequiredFieldPostalCode" runat="server" ErrorMessage="Postal Code is required." Display="None"
+        SetFocusOnError="true" ForeColor="Firebrick" ControlToValidate="FirstName"></asp:RequiredFieldValidator>
+    <asp:RequiredFieldValidator ID="RequiredFieldEmailAddress" runat="server" ErrorMessage="Email Address is required." Display="None"
+        SetFocusOnError="true" ForeColor="Firebrick" ControlToValidate="EmailAddress"></asp:RequiredFieldValidator>
+    <asp:RequiredFieldValidator ID="RequiredFieldCheckAnswer" runat="server" ErrorMessage="You need to supply the answer to the skill testing question." Display="None"
+        SetFocusOnError="true" ForeColor="Firebrick" ControlToValidate="CheckAnswer"></asp:RequiredFieldValidator>
+    <%--since we have no control to demonstrate a range on, the StreetAddress2 control will be used. we will simulate a survey question of strongly liked to strongly
+        disliked with a value of 1 to 5--%>
+    <asp:RangeValidator ID="RangeStreetAddress2" runat="server" ErrorMessage="Range test simulation using address 2" Display="None"
+        SetFocusOnError="true" ForeColor="Firebrick" ControlToValidate="StreetAddress2" MaximumValue="5" MinimumValue="1" Type="Integer"></asp:RangeValidator>
+
+    <asp:RegularExpressionValidator ID="RegularExpressionPostalCode" runat="server" ErrorMessage="Invalid Postal Code format AnAnAn" Display="None"
+        SetFocusOnError="true" ForeColor="Firebrick" ControlToValidate="PostalCode" ValidationExpression="[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]">
+    </asp:RegularExpressionValidator>
+    <%--datatype compare--%>
+    <asp:CompareValidator ID="CompareEmailAddress" runat="server" ErrorMessage="Invalid Email Address." Display="None"
+        SetFocusOnError="true" ForeColor="Firebrick" ControlToValidate="EmailAddress" Type="String" Operator="DataTypeCheck">
+    </asp:CompareValidator>
+
+    <%--specified constant value--%>
+    <asp:CompareValidator ID="CompareCheckAnswer" runat="server" ErrorMessage="Incorrect answer to skill testing question." Display="None"
+        SetFocusOnError="true" ForeColor="Firebrick" ControlToValidate="CheckAnswer" Type="Integer" Operator="Equal" ValueToCompare="15">
+    </asp:CompareValidator>
+    
+    <%--compare values between two controls--%>
+    <%--<asp:CompareValidator ID="CompareConfirmPassword" runat="server" ErrorMessage="Confirm Password does not match password." Display="None"
+        SetFocusOnError="true" ForeColor="Firebrick" ControlToValidate="ConfirmPassword" Type="String" Operator="Equal" ControlToCompare="Password">
+    </asp:CompareValidator>--%>
+
+    <%--display the error messages on the form this example will use the ValidationSummary Control--%>
+    <asp:ValidationSummary ID="ValidationSummary1" runat="server" HeaderText="Correct the following Concerns and resubmit."
+        CssClass="alert alert-danger"/>
+
     <div class="row">
         <div class ="col-md-6">
             <fieldset class="form-horizontal">

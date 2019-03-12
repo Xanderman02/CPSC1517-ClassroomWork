@@ -25,9 +25,20 @@ namespace WebApp.SamplePages
         protected void Submit_Click(object sender, EventArgs e)
         {
             // validate the data coming in
-            // validate the user checking the terms
-            //      yes: create/load entry, add to List, display List
-            //       no: message
+            if (Page.IsValid)
+            {
+                // validate the user checking the terms
+                if (Terms.Checked)
+                {
+                    //      yes: create/load entry, add to List, display List
+
+                }
+                else
+                {
+                    //       no: message
+                    Message.Text = "you did not agree to the terms of this contest. Entry is Denied";
+                }
+            }
         }
 
         protected void Clear_Click(object sender, EventArgs e)
