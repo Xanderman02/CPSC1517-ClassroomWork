@@ -100,6 +100,8 @@ namespace WebApp.SamplePages
         protected void Clear_Click(object sender, EventArgs e)
         {
             CategoryList.ClearSelection();
+            CategoryProductList.DataSource = null;
+            CategoryProductList.DataBind();
         }
     }
 }
