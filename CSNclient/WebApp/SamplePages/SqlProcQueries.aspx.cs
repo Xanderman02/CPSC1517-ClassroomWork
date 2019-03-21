@@ -81,6 +81,9 @@ namespace WebApp.SamplePages
                     {
                         //           no records: message to user
                         MessageLabel.Text = "No data found for select category";
+                        // optionally: you may wish to remove from display any old data so it is not confused with this message
+                        CategoryProductList.DataSource = null;
+                        CategoryProductList.DataBind();
                     }
                     else
                     {
