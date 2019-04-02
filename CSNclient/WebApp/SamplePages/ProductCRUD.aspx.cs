@@ -24,7 +24,7 @@ namespace WebApp.NorthwindPages
             Message.DataBind();
 
             // load the dropdown lists on the form
-            if(!Page.IsValid)
+            if(!Page.IsPostBack)
             {
                 BindProductList();
                 BindSupplierList();
@@ -167,7 +167,7 @@ namespace WebApp.NorthwindPages
                         {
                             item.UnitPrice = decimal.Parse(UnitPrice.Text);
                         }
-                        if (string.IsNullOrEmpty(UnitsInStock.Text)
+                        if (string.IsNullOrEmpty(UnitsInStock.Text))
                         {
                         item.UnitsInStock = null;
                         }
