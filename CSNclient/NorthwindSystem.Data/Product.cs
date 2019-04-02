@@ -31,9 +31,12 @@ namespace NorthwindSystem.Data
         //       [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Key]
         public int ProductID { get; set; }
+        [Required(ErrorMessage = "Product is required.")]
+        [StringLength(40, ErrorMessage = "Product Name is limited to 40 characters.")]
         public string ProductName { get; set; }
         public int? SupplierID { get; set; }
         public int? CategoryID { get; set; }
+        [StringLength(20, ErrorMessage = "Quantity per Unit is limited to 20 characters.")]
         public string QuantityPerUnit
         {
             get
@@ -42,12 +45,19 @@ namespace NorthwindSystem.Data
             }
             set
             {
-                _quantityPerUnit = string.IsNullOrEmpty(value.Trim()) ? null : value;
+                _quantityPerUnit = string.IsNullOrEmpty(value) ? null : value;
             }
         }
+        [Range(0.00, double.MaxValue, ErrorMessage = "Unit Price must be 0 dollars or greater.")]
         public decimal? UnitPrice { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "QoH must be 0 or greater.")]
         public Int16? UnitsInStock { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "QoO must be 0 or greater.")]
         public Int16? UnitsOnOrder { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "ROL must be 0 or greater.")]
         public Int16? ReorderLevel { get; set; }
         public bool Discontinued { get; set; }
 

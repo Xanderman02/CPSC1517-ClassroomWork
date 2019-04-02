@@ -58,8 +58,13 @@
                                 <HeaderStyle BackColor="#3399FF" Font-Bold="True" />
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
-                            <asp:CommandField CausesValidation="False" SelectText="View" ShowSelectButton="True" />
+                            <asp:CommandField CausesValidation="False" SelectText="View" ShowSelectButton="True">
+                            <HeaderStyle BackColor="#3399FF" />
+                            </asp:CommandField>
                         </Columns>
+                        <EmptyDataTemplate>
+                            No Products on file for given category.
+                        </EmptyDataTemplate>
                         <PagerSettings FirstPageText="Start" LastPageText="End" Mode="NumericFirstLast" PageButtonCount="3" />
                     </asp:GridView>
                 </td>
