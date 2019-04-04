@@ -199,6 +199,12 @@ namespace WebApp.NorthwindPages
                         // handle the results
                         errormsgs.Add(ProductName.Text + " has been added to the database with an id of " + newProductID.ToString());
                         LoadMessageDisplay(errormsgs, "alert alert-success");
+
+                        // refresh of the web page/web controls
+                        // displaying the new productID in its field
+                        ProductID.Text = newProductID.ToString();
+                        BindProductList();
+                        ProductList.SelectedValue = ProductID.Text;
                     }
                     catch (DbUpdateException ex)
                     {
@@ -236,12 +242,221 @@ namespace WebApp.NorthwindPages
 
         protected void UpdateProduct_Click(object sender, EventArgs e)
         {
+            // execute your form validation
+            //if(Page.IsValid)
+            //{
+            // any logic validation NOT covered by form validtation
+            // for this example, assume that the CategoryID and SupplierID are needed
+            if (SupplierList.SelectedIndex == 0)
+            {
+                errormsgs.Add("Select a supplier");
+            }
+            if (CategoryList.SelectedIndex == 0)
+            {
+                errormsgs.Add("Select a category");
+            }
 
+            // on the update you MUST insure that the records pkey value is present
+            if(string.IsNullOrEmpty(ProductID.Text))
+            {
+                errormsgs.Add("Search for the product to be maintain");
+            }
+
+            // did one pass all logical validation
+            if (errormsgs.Count() > 0)
+            {
+                LoadMessageDisplay(errormsgs, "alert alert-info");
+            }
+            else
+            {
+                try
+                {
+                    // Create an instance of <T>
+                    Product item = new Product();
+                    // Extract data from form and load <T>
+
+                    // on the update you MUST ensure that the records pkey value is loaded to the instance
+                    item.ProductID = int.Parse(ProductID.Text);
+
+                    item.ProductName = ProductName.Text;
+                    item.SupplierID = int.Parse(SupplierList.SelectedValue);
+                    item.CategoryID = int.Parse(CategoryList.SelectedValue);
+                    item.QuantityPerUnit = string.IsNullOrEmpty(QuantityPerUnit.Text) ? null : QuantityPerUnit.Text;
+                    if (string.IsNullOrEmpty(UnitPrice.Text))
+                    {
+                        item.UnitPrice = null;
+                    }
+                    else
+                    {
+                        item.UnitPrice = decimal.Parse(UnitPrice.Text);
+                    }
+                    if (string.IsNullOrEmpty(UnitsInStock.Text))
+                    {
+                        item.UnitsInStock = null;
+                    }
+                    else
+                    {
+                        item.UnitsInStock = Int16.Parse(UnitsInStock.Text);
+                    }
+                    if (string.IsNullOrEmpty(UnitsOnOrder.Text))
+                    {
+                        item.UnitsOnOrder = null;
+                    }
+                    else
+                    {
+                        item.UnitsOnOrder = Int16.Parse(UnitsOnOrder.Text);
+                    }
+                    if (string.IsNullOrEmpty(ReorderLevel.Text))
+                    {
+                        item.ReorderLevel = null;
+                    }
+                    else
+                    {
+                        item.ReorderLevel = Int16.Parse(ReorderLevel.Text);
+                    }
+
+                    // on an update, you take the value from the control
+                    item.Discontinued = Discontinued.Checked;
+
+
+                    // Connect to approprieate BLL class
+                    ProductController sysgmr = new ProductController();
+                    // issue a coall to the appropreiate BLL method passing the instance of <T>
+                    int rowsaffected = sysgmr.Product_Update(item);
+                    // handle the results
+                    if (rowsaffected == 0)
+                    {
+                        errormsgs.Add(ProductName.Text + " has not been updated. Search the product again ");
+                        LoadMessageDisplay(errormsgs, "alert alert-warning");
+                        // consider refreshing the necessary controls on your form
+                        BindProductList();
+                        // optionally
+                        ProductID.Text = "";
+                    }
+                    else
+                    {
+                        errormsgs.Add(ProductName.Text + " has been updated");
+                        LoadMessageDisplay(errormsgs, "alert alert-success");
+                        // consider refreshing the necessary controls on your form
+                        BindProductList();
+                        ProductList.SelectedValue = ProductID.Text;
+                    }
+                }
+                catch (DbUpdateException ex)
+                {
+                    UpdateException updateException = (UpdateException)ex.InnerException;
+                    if (updateException.InnerException != null)
+                    {
+                        errormsgs.Add(updateException.InnerException.Message.ToString());
+                    }
+                    else
+                    {
+                        errormsgs.Add(updateException.Message);
+                    }
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationError in entityValidationErrors.ValidationErrors)
+                        {
+                            errormsgs.Add(validationError.ErrorMessage);
+                        }
+                    }
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+                catch (Exception ex)
+                {
+                    errormsgs.Add(GetInnerException(ex).ToString());
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+
+            }
+            //}
         }
 
         protected void RemoveProduct_Click(object sender, EventArgs e)
-        {
+        {       
+            // on the update you MUST insure that the records pkey value is present
+            if (string.IsNullOrEmpty(ProductID.Text))
+            {
+                errormsgs.Add("Search for the product to be maintain");
+            }
 
+            // did one pass all logical validation
+            if (errormsgs.Count() > 0)
+            {
+                LoadMessageDisplay(errormsgs, "alert alert-info");
+            }
+            else
+            {
+                try
+                {
+                    // Connect to approprieate BLL class
+                    ProductController sysgmr = new ProductController();
+                    // issue a coall to the appropreiate BLL method passing the instance of <T>
+                    int rowsaffected = sysgmr.Product_Delete(int.Parse(ProductID.Text));
+                    // handle the results
+                    if (rowsaffected == 0)
+                    {
+                        errormsgs.Add(ProductName.Text + " has not been discontinued Search the product again ");
+                        LoadMessageDisplay(errormsgs, "alert alert-warning");
+                        // consider refreshing the necessary controls on your form
+                        BindProductList();
+                        // optionally
+                        ProductID.Text = "";
+                    }
+                    else
+                    {
+                        errormsgs.Add(ProductName.Text + " has been discontinued");
+                        LoadMessageDisplay(errormsgs, "alert alert-success");
+                        // consider refreshing the necessary controls on your form
+                        // physical delete
+                        //BindProductList();
+                        //ProductID.Text = "";
+                        // optionally, clear the form,  client decision
+                        // Clear_Click(sender, new EventArgs());
+
+                        // logical delete
+                        BindProductList();
+                        // refresh form controls to indicate removal
+                        Discontinued.Checked = true;
+                        ProductList.SelectedValue = ProductID.Text;
+                    }
+                }
+                catch (DbUpdateException ex)
+                {
+                    UpdateException updateException = (UpdateException)ex.InnerException;
+                    if (updateException.InnerException != null)
+                    {
+                        errormsgs.Add(updateException.InnerException.Message.ToString());
+                    }
+                    else
+                    {
+                        errormsgs.Add(updateException.Message);
+                    }
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationError in entityValidationErrors.ValidationErrors)
+                        {
+                            errormsgs.Add(validationError.ErrorMessage);
+                        }
+                    }
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+                catch (Exception ex)
+                {
+                    errormsgs.Add(GetInnerException(ex).ToString());
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+
+            }
+            //}
         }
     }
 }
